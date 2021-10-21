@@ -39,11 +39,6 @@ public class SensorController {
         UUID sensorId = sensorService.updateSensor(id, sensorDetailsDTO);
         return new ResponseEntity<>(sensorId, HttpStatus.OK);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UUID> deleteSensor(@PathVariable(value = "id") UUID id) {
-        UUID deletedSensorId = sensorService.deleteSensor(id);
-        return new ResponseEntity<>(deletedSensorId, HttpStatus.OK);
-    }
+    
 
 }
