@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.ClientDTO;
 import ro.tuc.ds2020.dtos.ClientDetailsDTO;
+import ro.tuc.ds2020.dtos.CurrentUserDTO;
 import ro.tuc.ds2020.dtos.builders.UserBuilder;
 import ro.tuc.ds2020.entities.User;
 import ro.tuc.ds2020.entities.UserRole;
@@ -62,5 +63,10 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ clientId));
         userRepository.delete(user);
         return user.getId();
+    }
+
+    public CurrentUserDTO getCurrrentUserDetails(String username) {
+        User user = userRepository.findByUsername(username);
+        return UserBuilder.toCurrentUserDTO(user);
     }
 }
