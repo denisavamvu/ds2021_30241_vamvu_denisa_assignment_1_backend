@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.ClientDTO;
 import ro.tuc.ds2020.dtos.ClientDetailsDTO;
 import ro.tuc.ds2020.dtos.CurrentUserDTO;
+import ro.tuc.ds2020.dtos.UserDTO;
+import ro.tuc.ds2020.entities.UserRole;
 import ro.tuc.ds2020.services.UserService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +30,14 @@ public class UserController {
     }
 
     @GetMapping("/clients")
-    public ResponseEntity<List<ClientDTO>> getClients() {
+    public  ResponseEntity<List<ClientDTO>> getClients() {
         List<ClientDTO> clientDTOList = userService.findClients();
+        return new ResponseEntity<>(clientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> clientDTOList = userService.findUsers();
         return new ResponseEntity<>(clientDTOList, HttpStatus.OK);
     }
 
@@ -36,6 +45,12 @@ public class UserController {
     public ResponseEntity<UUID> insertClient(@Valid @RequestBody ClientDetailsDTO clientDetailsDTO) {
         UUID clientID = userService.insertClient(clientDetailsDTO);
         return new ResponseEntity<>(clientID, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/addAdmin")
+    public ResponseEntity<UUID> insertAdmin(@Valid @RequestBody ClientDetailsDTO clientDetailsDTO) {
+        UUID adminID = userService.insertAdmin(clientDetailsDTO);
+        return new ResponseEntity<>(adminID, HttpStatus.CREATED);
     }
 
     @PutMapping("/client/{id}")

@@ -3,6 +3,7 @@ package ro.tuc.ds2020.dtos.builders;
 import ro.tuc.ds2020.dtos.ClientDTO;
 import ro.tuc.ds2020.dtos.ClientDetailsDTO;
 import ro.tuc.ds2020.dtos.CurrentUserDTO;
+import ro.tuc.ds2020.dtos.UserDTO;
 import ro.tuc.ds2020.entities.User;
 import ro.tuc.ds2020.entities.UserRole;
 
@@ -13,6 +14,10 @@ public class UserBuilder {
 
     public static ClientDTO toClientDTO(User user) {
         return new ClientDTO(user.getId(), user.getName(), user.getAddress(), user.getBirthdate());
+    }
+
+    public static UserDTO toUserDTO(User user) {
+        return new UserDTO(user.getId(), user.getRole(), user.getUsername(), user.getName(), user.getAddress(), user.getBirthdate());
     }
 
     public static User toEntity(ClientDetailsDTO clientDetailsDTO) {

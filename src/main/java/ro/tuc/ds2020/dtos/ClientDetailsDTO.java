@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class ClientDetailsDTO {
     private UUID id;
-    private static final UserRole role = UserRole.CLIENT;
     @NotNull
     private String username;
     @NotNull
@@ -49,10 +48,6 @@ public class ClientDetailsDTO {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public static UserRole getRole() {
-        return role;
     }
 
     public String getUsername() {

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.validation.annotation.Validated;
+import ro.tuc.ds2020.entities.UserRole;
 
 import java.util.TimeZone;
 
