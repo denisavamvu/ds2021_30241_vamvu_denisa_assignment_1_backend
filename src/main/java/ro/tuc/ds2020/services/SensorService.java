@@ -38,7 +38,7 @@ public class SensorService {
         Sensor sensor = sensorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor not found on :: "+ id));
 
-        if(sensorDetailsDTO.getDescription() != null)
+        if(sensorDetailsDTO.getDescription() != "")
             sensor.setDescription(sensorDetailsDTO.getDescription());
 
         if(sensorDetailsDTO.getMax_value() != 0)

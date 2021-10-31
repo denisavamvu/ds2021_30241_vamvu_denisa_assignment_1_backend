@@ -2,6 +2,8 @@ package ro.tuc.ds2020.dtos;
 
 import ro.tuc.ds2020.entities.UserRole;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,12 +13,12 @@ public class UserDTO {
     private String username;
     private String name;
     private String address;
-    private Date birthdate;
+    private LocalDate birthdate;
 
     public UserDTO() {
 
     }
-    public UserDTO(UUID id, UserRole role, String username, String name, String address, Date birthdate) {
+    public UserDTO(UUID id, UserRole role, String username, String name, String address, LocalDate birthdate) {
         this.id = id;
         this.role = role;
         this.username = username;
@@ -65,11 +67,11 @@ public class UserDTO {
         this.address = address;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 }

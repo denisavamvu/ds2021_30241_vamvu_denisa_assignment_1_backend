@@ -14,6 +14,7 @@ import ro.tuc.ds2020.entities.User;
 import ro.tuc.ds2020.entities.UserRole;
 import ro.tuc.ds2020.repositories.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -59,15 +60,18 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: "+ id));
 
-        if(clientDTO.getAddress()!=null)
+        if(clientDTO.getUsername()!="")
+            user.setUsername(clientDTO.getUsername());
+
+        if(clientDTO.getAddress()!="")
             user.setAddress(clientDTO.getAddress());
 
-        if(clientDTO.getName()!=null)
+        if(clientDTO.getName()!="")
             user.setName(clientDTO.getName());
 
+        LocalDate birthDate = LocalDate.parse(clientDTO.getBirthdate());
         if(clientDTO.getBirthdate()!=null)
-            user.setBirthdate(clientDTO.getBirthdate());
-
+            user.setBirthdate(birthDate);
 
         userRepository.save(user);
         return user.getId();

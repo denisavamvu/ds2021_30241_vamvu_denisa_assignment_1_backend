@@ -11,7 +11,6 @@ import java.util.UUID;
 public class SensorDetailsDTO {
 
     private UUID id;
-    @NotNull
     private String description;
     private float max_value;
     private Device device;

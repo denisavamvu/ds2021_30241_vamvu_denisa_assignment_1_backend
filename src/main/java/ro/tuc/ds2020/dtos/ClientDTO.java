@@ -1,32 +1,31 @@
 package ro.tuc.ds2020.dtos;
 
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+
 import java.util.Objects;
 import java.util.UUID;
 
 public class ClientDTO {
     private UUID id;
-    @NotNull
     private String name;
-    @NotNull
+    private String username;
     private String address;
-    @NotNull
-    private Date birthdate;
+    private String birthdate;
 
     public ClientDTO(){
 
     }
 
-    public ClientDTO(String name, String address, Date birthdate) {
+    public ClientDTO(String name, String address,String username, String birthdate) {
         this.name = name;
+        this.username = username;
         this.address = address;
         this.birthdate = birthdate;
     }
 
-    public ClientDTO(UUID id, String name, String address, Date birthdate) {
+    public ClientDTO(UUID id,String name,String username, String address, String birthdate) {
         this.id = id;
         this.name = name;
+        this.username = username;
         this.address = address;
         this.birthdate = birthdate;
     }
@@ -47,6 +46,14 @@ public class ClientDTO {
         this.name = name;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -55,11 +62,11 @@ public class ClientDTO {
         this.address = address;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 

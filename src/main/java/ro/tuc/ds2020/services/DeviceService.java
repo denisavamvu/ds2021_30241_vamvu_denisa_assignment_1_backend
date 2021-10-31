@@ -40,10 +40,10 @@ public class DeviceService {
         Device device = deviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ id));
 
-        if(deviceDetailsDTO.getDescription() != null)
+        if(deviceDetailsDTO.getDescription() != "")
             device.setDescription(deviceDetailsDTO.getDescription());
 
-        if(deviceDetailsDTO.getAddress() != null)
+        if(deviceDetailsDTO.getAddress() != "")
             device.setAddress(deviceDetailsDTO.getAddress());
 
         if(deviceDetailsDTO.getMax_consumption() != 0)

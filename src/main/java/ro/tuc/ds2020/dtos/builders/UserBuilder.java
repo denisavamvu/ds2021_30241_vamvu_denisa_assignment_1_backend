@@ -7,13 +7,15 @@ import ro.tuc.ds2020.dtos.UserDTO;
 import ro.tuc.ds2020.entities.User;
 import ro.tuc.ds2020.entities.UserRole;
 
+import java.time.LocalDate;
+
 public class UserBuilder {
     private UserBuilder() {
 
     }
 
     public static ClientDTO toClientDTO(User user) {
-        return new ClientDTO(user.getId(), user.getName(), user.getAddress(), user.getBirthdate());
+        return new ClientDTO(user.getId(), user.getName(), user.getUsername(), user.getAddress(), user.getBirthdate().toString());
     }
 
     public static UserDTO toUserDTO(User user) {
@@ -21,9 +23,12 @@ public class UserBuilder {
     }
 
     public static User toEntity(ClientDetailsDTO clientDetailsDTO) {
-        return new User(clientDetailsDTO.getId(), clientDetailsDTO.getRole() ,clientDetailsDTO.getUsername(),
+        System.out.println(clientDetailsDTO.getAddress());
+        System.out.println(clientDetailsDTO.getBirthdate());
+        LocalDate birthDate = LocalDate.parse(clientDetailsDTO.getBirthdate());
+        return new User(UserRole.CLIENT, clientDetailsDTO.getUsername(),
                 clientDetailsDTO.getPassword(), clientDetailsDTO.getName(),
-                clientDetailsDTO.getAddress(), clientDetailsDTO.getBirthdate()
+                clientDetailsDTO.getAddress(), birthDate
                 );
     }
 

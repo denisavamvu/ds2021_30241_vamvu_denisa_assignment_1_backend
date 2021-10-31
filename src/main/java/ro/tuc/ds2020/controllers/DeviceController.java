@@ -37,7 +37,7 @@ public class DeviceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UUID> updateSensor(@PathVariable(value = "id") UUID id, @RequestBody DeviceDetailsDTO deviceDetailsDTO) {
+    public ResponseEntity<UUID> updateDevice(@PathVariable(value = "id") UUID id, @RequestBody DeviceDetailsDTO deviceDetailsDTO) {
         UUID sensorId = deviceService.updateDevice(id, deviceDetailsDTO);
         return new ResponseEntity<>(sensorId, HttpStatus.OK);
     }
