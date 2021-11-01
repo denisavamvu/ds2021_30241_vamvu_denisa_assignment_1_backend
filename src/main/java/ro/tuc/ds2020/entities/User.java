@@ -6,8 +6,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -40,8 +38,7 @@ public class User implements Serializable {
     @Column(name = "birthdate")
     private LocalDate birthdate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Device> devices;
 
     public User(){
@@ -72,6 +69,13 @@ public class User implements Serializable {
         this.name = name;
         this.address = address;
         this.birthdate = birthdate;
+    }
+
+    public User(UUID id, String name, String username, String address){
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.address = address;
     }
 
     public UUID getId() {

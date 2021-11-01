@@ -69,7 +69,13 @@ public class UserController {
     @GetMapping("/userDetails/{username}")
     public ResponseEntity<CurrentUserDTO> getUserDetails(@PathVariable(value = "username") String username)
     {
-        CurrentUserDTO currentUserDTO = userService.getCurrrentUserDetails(username);
+        CurrentUserDTO currentUserDTO = userService.getCurrentUserDetails(username);
         return new ResponseEntity<>(currentUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/getClient/{id}")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable(value = "id") UUID id) {
+        ClientDTO clientDTO= userService.findClientById(id);
+        return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 }

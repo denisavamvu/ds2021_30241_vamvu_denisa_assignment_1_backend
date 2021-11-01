@@ -3,11 +3,10 @@ package ro.tuc.ds2020.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ro.tuc.ds2020.dtos.ClientDTO;
 import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
 import ro.tuc.ds2020.dtos.SensorDetailsDTO;
-import ro.tuc.ds2020.entities.UserRole;
 import ro.tuc.ds2020.services.DeviceService;
 
 import javax.validation.Valid;
@@ -60,4 +59,11 @@ public class DeviceController {
         UUID updatedDeviceId = deviceService.addSensorToDevice(deviceId, sensorDetailsDTO);
         return new ResponseEntity<>(updatedDeviceId, HttpStatus.OK);
     }
+
+    @PutMapping("/addUser/{deviceId}")
+    public ResponseEntity<UUID> addUserToDevice(@PathVariable(value = "deviceId") UUID deviceId, @RequestBody ClientDTO clientDTO) {
+        UUID updatedDeviceId = deviceService.addUserToDevice(deviceId, clientDTO);
+        return new ResponseEntity<>(updatedDeviceId, HttpStatus.OK);
+    }
+
 }

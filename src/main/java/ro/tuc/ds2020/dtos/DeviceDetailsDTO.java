@@ -14,19 +14,29 @@ public class DeviceDetailsDTO {
     private float max_consumption;
     @NotNull
     private float average_consumption;
-    private User user;
+    private UUID userId;
+    private String username;
 
     public DeviceDetailsDTO() {
 
     }
 
-    public DeviceDetailsDTO(UUID id, String description, String address, float max_consumption, float average_consumption, User user) {
+    public DeviceDetailsDTO(UUID id, String description, String address, float max_consumption, float average_consumption) {
         this.id = id;
         this.description = description;
         this.address = address;
         this.max_consumption = max_consumption;
         this.average_consumption = average_consumption;
-        this.user = user;
+    }
+
+    public DeviceDetailsDTO(UUID id, String description, String address, float max_consumption, float average_consumption, UUID userId, String username) {
+        this.id = id;
+        this.description = description;
+        this.address = address;
+        this.max_consumption = max_consumption;
+        this.average_consumption = average_consumption;
+        this.userId = userId;
+        this.username = username;
     }
 
     public DeviceDetailsDTO(UUID id, String description, float max_consumption, float average_consumption) {
@@ -76,11 +86,19 @@ public class DeviceDetailsDTO {
         this.average_consumption = average_consumption;
     }
 
-    public User getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

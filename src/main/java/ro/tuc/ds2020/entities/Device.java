@@ -57,6 +57,7 @@ public class Device implements Serializable {
         this.average_consumption = average_consumption;
     }
 
+
     public UUID getId() {
         return id;
     }

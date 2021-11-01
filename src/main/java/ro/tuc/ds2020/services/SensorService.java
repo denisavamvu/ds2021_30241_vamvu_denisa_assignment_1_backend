@@ -62,13 +62,13 @@ public class SensorService {
         Sensor sensor = sensorRepository.findById(sensorID)
                 .orElseThrow(() -> new ResourceNotFoundException("Sensor not found on :: "+ sensorID));
 
-        Optional<Device> optionalDevice = deviceRepository.findById(sensor.getDevice().getId());
-
-
-        if(optionalDevice.isPresent()){
-            Device device = optionalDevice.get();
-            device.setSensor(null);
-            deviceRepository.save(device);
+        if(sensor.getDevice()!=null){
+            Optional<Device> optionalDevice = deviceRepository.findById(sensor.getDevice().getId());
+            if(optionalDevice.isPresent()){
+                Device device = optionalDevice.get();
+                device.setSensor(null);
+                deviceRepository.save(device);
+            }
         }
 
         sensorRepository.delete(sensor);
