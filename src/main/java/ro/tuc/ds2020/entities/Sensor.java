@@ -17,6 +17,7 @@ public class Sensor implements Serializable {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Type(type = "uuid-binary")
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "description", nullable = false)
@@ -25,10 +26,10 @@ public class Sensor implements Serializable {
     @Column(name = "max_value")
     private float max_value;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "sensor",fetch = FetchType.EAGER)
     private Device device;
 
-    @OneToMany(mappedBy = "sensor", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "sensor", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private Set<MonitoredValue> monitoredValues;
 
@@ -43,6 +44,11 @@ public class Sensor implements Serializable {
         this.device = device;
     }
 
+    public Sensor(UUID id, String description, float max_value) {
+        this.id = id;
+        this.description = description;
+        this.max_value = max_value;
+    }
     public Sensor(UUID id, String description, float max_value, Device device, Set<MonitoredValue> monitoredValues) {
         this.id = id;
         this.description = description;

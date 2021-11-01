@@ -25,7 +25,7 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false)
     private UserRole role;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -40,7 +40,7 @@ public class User implements Serializable {
     @Column(name = "birthdate")
     private LocalDate birthdate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private Set<Device> devices;
 

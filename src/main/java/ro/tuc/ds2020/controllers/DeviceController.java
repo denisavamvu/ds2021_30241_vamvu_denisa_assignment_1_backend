@@ -30,6 +30,7 @@ public class DeviceController {
         return new ResponseEntity<>(deviceDetailsDTOList, HttpStatus.OK);
     }
 
+
     @PostMapping()
     public ResponseEntity<UUID> insertDevice(@Valid @RequestBody DeviceDetailsDTO deviceDetailsDTO) {
         UUID deviceID = deviceService.insert(deviceDetailsDTO);
@@ -46,5 +47,17 @@ public class DeviceController {
     public ResponseEntity<UUID> deleteDevice(@PathVariable(value = "id") UUID id) {
         UUID deletedDeviceId = deviceService.deleteDevice(id);
         return new ResponseEntity<>(deletedDeviceId, HttpStatus.OK);
+    }
+
+    @GetMapping("/noSensor")
+    public ResponseEntity<List<DeviceDetailsDTO>> getDevicesWithoutSensors() {
+        List<DeviceDetailsDTO> deviceDetailsDTOList = deviceService.findDevicesWithoutSensors();
+        return new ResponseEntity<>(deviceDetailsDTOList, HttpStatus.OK);
+    }
+
+    @PutMapping("/addSensor/{deviceId}")
+    public ResponseEntity<UUID> addSensorToDevice(@PathVariable(value = "deviceId") UUID deviceId, @RequestBody  SensorDetailsDTO sensorDetailsDTO) {
+        UUID updatedDeviceId = deviceService.addSensorToDevice(deviceId, sensorDetailsDTO);
+        return new ResponseEntity<>(updatedDeviceId, HttpStatus.OK);
     }
 }

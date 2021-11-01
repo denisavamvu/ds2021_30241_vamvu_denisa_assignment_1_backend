@@ -4,10 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
+import ro.tuc.ds2020.dtos.SensorDetailsDTO;
 import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
+import ro.tuc.ds2020.dtos.builders.SensorBuilder;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.DeviceRepository;
 
 import java.util.List;
@@ -18,6 +22,8 @@ import java.util.stream.Collectors;
 public class DeviceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeviceService.class);
     private final DeviceRepository deviceRepository;
+    @Autowired
+    private SensorBuilder sensorBuilder;
 
     @Autowired
     public DeviceService(DeviceRepository deviceRepository) { this.deviceRepository = deviceRepository; }
@@ -29,6 +35,12 @@ public class DeviceService {
                 .collect(Collectors.toList());
     }
 
+    public List<DeviceDetailsDTO> findDevicesWithoutSensors(){
+        List<Device> deviceList = deviceRepository.findAll();
+        return deviceList.stream().filter(device -> device.getSensor() == null)
+                .map(DeviceBuilder::toDeviceDetailsDTO)
+                .collect(Collectors.toList());
+    }
     public UUID insert(DeviceDetailsDTO deviceDetailsDTO) {
         Device device = DeviceBuilder.toEntity(deviceDetailsDTO);
         device = deviceRepository.save(device);
@@ -58,8 +70,19 @@ public class DeviceService {
 
     public UUID deleteDevice(UUID deviceId)throws ResourceNotFoundException {
         Device device = deviceRepository.findById(deviceId)
-                .orElseThrow(() -> new ResourceNotFoundException("Sensor not found on :: "+ deviceId));
+                .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
         deviceRepository.delete(device);
         return device.getId();
+    }
+
+    @Transactional
+    public UUID addSensorToDevice(UUID deviceId, SensorDetailsDTO sensorDetailsDTO)
+    {
+        Device device = deviceRepository.findById(deviceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
+        Sensor sensor = sensorBuilder.toEntity(sensorDetailsDTO);
+        device.setSensor(sensor);
+        deviceRepository.save(device);
+        return deviceId;
     }
 }
