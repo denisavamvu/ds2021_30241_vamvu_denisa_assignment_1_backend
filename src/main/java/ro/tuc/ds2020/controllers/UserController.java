@@ -46,14 +46,12 @@ public class UserController {
         UUID clientID = userService.insertClient(clientDetailsDTO);
         return new ResponseEntity<>(clientID, HttpStatus.CREATED);
     }
-
-    /*
     @PostMapping("/addAdmin")
     public ResponseEntity<UUID> insertAdmin(@Valid @RequestBody ClientDetailsDTO clientDetailsDTO) {
         UUID adminID = userService.insertAdmin(clientDetailsDTO);
         return new ResponseEntity<>(adminID, HttpStatus.CREATED);
     }
- */
+
     @PutMapping("/client/{id}")
     public ResponseEntity<UUID> updateClient(@PathVariable(value = "id") UUID clientId,@RequestBody ClientDTO newClientDTO) {
         UUID clientID = userService.updateClient(clientId, newClientDTO);
