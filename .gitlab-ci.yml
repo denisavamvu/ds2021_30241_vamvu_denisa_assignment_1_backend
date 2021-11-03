@@ -15,7 +15,6 @@ checkstyle:
     image: maven:3.3.9-jdk-8
     script:
     - echo "Checkstyle DEMO app"
-    - mvn checkstyle:check
 
 variables:
     DB_IP: ec2-54-228-99-58.eu-west-1.compute.amazonaws.com
