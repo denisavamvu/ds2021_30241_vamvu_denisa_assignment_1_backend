@@ -103,7 +103,7 @@ public class DeviceService {
                 .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
 
         User user = userRepository.findById(clientDTO.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));;
+                .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
         device.setUser(user);
 
         deviceRepository.save(device);
