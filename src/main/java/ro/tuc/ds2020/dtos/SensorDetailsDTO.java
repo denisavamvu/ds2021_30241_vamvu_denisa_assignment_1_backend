@@ -3,30 +3,28 @@ package ro.tuc.ds2020.dtos;
 import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.MonitoredValue;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
 public class SensorDetailsDTO {
 
     private UUID id;
-    @NotNull
     private String description;
     private float max_value;
-    private Device device;
+    private String deviceDescription;
+    private UUID deviceId;
     private Set<MonitoredValue> monitoredValues;
 
     public SensorDetailsDTO() {
 
     }
 
-    public SensorDetailsDTO(UUID id, String description, float max_value, Device device, Set<MonitoredValue> monitoredValues) {
+    public SensorDetailsDTO(UUID id, String description, float max_value, String device_description, UUID device_id) {
         this.id = id;
         this.description = description;
         this.max_value = max_value;
-        this.device = device;
-        this.monitoredValues = monitoredValues;
+        this.deviceDescription = device_description;
+        this.deviceId = device_id;
     }
 
     public SensorDetailsDTO(UUID id, String description, float max_value) {
@@ -59,12 +57,21 @@ public class SensorDetailsDTO {
         this.max_value = max_value;
     }
 
-    public Device getDevice() {
-        return device;
+
+    public String getDeviceDescription() {
+        return deviceDescription;
     }
 
-    public void setDevice(Device device) {
-        this.device = device;
+    public void setDeviceDescription(String deviceDescription) {
+        this.deviceDescription = deviceDescription;
+    }
+
+    public UUID getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(UUID deviceId) {
+        this.deviceId = deviceId;
     }
 
     public Set<MonitoredValue> getMonitoredValues() {

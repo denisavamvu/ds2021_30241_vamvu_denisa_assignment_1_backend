@@ -26,7 +26,8 @@ public class MonitoredValue implements Serializable {
     @Column(name = "energy_consumption", nullable = false)
     private float energy_consumption;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="sensor_id", referencedColumnName = "id")
     private Sensor sensor;
 
     public MonitoredValue() {
@@ -38,6 +39,12 @@ public class MonitoredValue implements Serializable {
         this.timestamp = timestamp;
         this.energy_consumption = energy_consumption;
         this.sensor = sensor;
+    }
+
+    public MonitoredValue(UUID id, LocalDateTime timestamp, float energy_consumption) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.energy_consumption = energy_consumption;
     }
 
     public UUID getId() {

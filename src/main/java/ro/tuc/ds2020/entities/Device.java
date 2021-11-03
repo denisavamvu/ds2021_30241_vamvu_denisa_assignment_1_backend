@@ -15,6 +15,7 @@ public class Device implements Serializable {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Type(type = "uuid-binary")
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "description", nullable = false)
@@ -29,10 +30,11 @@ public class Device implements Serializable {
     @Column(name = "average_consumption", nullable = false)
     private float average_consumption;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sensor_id", referencedColumnName = "id", unique = true)
     private Sensor sensor;
 
     public Device() {
@@ -48,12 +50,14 @@ public class Device implements Serializable {
         this.user = user;
     }
 
-    public Device(UUID id, String description, float max_consumption, float average_consumption) {
+    public Device(UUID id, String description,String address, float max_consumption, float average_consumption) {
         this.id = id;
         this.description = description;
+        this.address =address;
         this.max_consumption = max_consumption;
         this.average_consumption = average_consumption;
     }
+
 
     public UUID getId() {
         return id;
@@ -101,5 +105,13 @@ public class Device implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Sensor getSensor() {
+        return sensor;
+    }
+
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
     }
 }

@@ -1,16 +1,8 @@
 package ro.tuc.ds2020.dtos;
-
-import ro.tuc.ds2020.entities.User;
-import ro.tuc.ds2020.entities.UserRole;
-
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.UUID;
+
 
 public class ClientDetailsDTO {
-    private UUID id;
-    private static final UserRole role = UserRole.CLIENT;
     @NotNull
     private String username;
     @NotNull
@@ -20,39 +12,18 @@ public class ClientDetailsDTO {
     @NotNull
     private String address;
     @NotNull
-    private Date birthdate;
+    private String birthdate;
 
     public ClientDetailsDTO() {
 
     }
 
-    public ClientDetailsDTO(UUID id, String username, String password, String name, String address, Date birthdate) {
-        this.id = id;
+    public ClientDetailsDTO( String username, String password, String name, String address, String birthdate) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.address = address;
         this.birthdate = birthdate;
-    }
-
-    public ClientDetailsDTO(String username, String password, String name, String address, Date birthdate) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.address = address;
-        this.birthdate = birthdate;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public static UserRole getRole() {
-        return role;
     }
 
     public String getUsername() {
@@ -87,11 +58,12 @@ public class ClientDetailsDTO {
         this.address = address;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
+
 }

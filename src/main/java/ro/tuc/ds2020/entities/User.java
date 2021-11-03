@@ -5,7 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class User implements Serializable {
     @Column(name = "role", nullable = false)
     private UserRole role;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -36,16 +36,15 @@ public class User implements Serializable {
     private String address;
 
     @Column(name = "birthdate")
-    private Date birthdate;
+    private LocalDate birthdate;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Device> devices;
 
     public User(){
 
     }
-    public User(UUID id, UserRole role, String username, String password, String name, String address, Date birthdate) {
+    public User(UUID id, UserRole role, String username, String password, String name, String address, LocalDate birthdate) {
         this.id = id;
         this.role = role;
         this.username = username;
@@ -55,11 +54,28 @@ public class User implements Serializable {
         this.birthdate = birthdate;
     }
 
-    public User(UUID id, String name, String address, Date birthdate) {
+    public User(UserRole role, String username, String password, String name, String address, LocalDate birthdate) {
+        this.id = id;
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.address = address;
+        this.birthdate = birthdate;
+    }
+
+    public User(UUID id, String name, String address, LocalDate birthdate) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.birthdate = birthdate;
+    }
+
+    public User(UUID id, String name, String username, String address){
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.address = address;
     }
 
     public UUID getId() {
@@ -110,11 +126,11 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 

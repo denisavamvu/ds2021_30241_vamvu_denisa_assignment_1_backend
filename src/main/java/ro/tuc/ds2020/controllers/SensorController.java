@@ -3,6 +3,7 @@ package ro.tuc.ds2020.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.SensorDetailsDTO;
 import ro.tuc.ds2020.services.SensorService;
@@ -21,6 +22,7 @@ public class SensorController {
     @Autowired
     public SensorController(SensorService sensorService) { this.sensorService = sensorService; }
 
+    @Transactional
     @GetMapping()
     public ResponseEntity<List<SensorDetailsDTO>> getSensors() {
         List<SensorDetailsDTO> sensorDetailsDTOList = sensorService.findSensors();
