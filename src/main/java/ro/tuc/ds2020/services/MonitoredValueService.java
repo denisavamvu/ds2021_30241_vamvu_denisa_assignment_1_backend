@@ -33,9 +33,6 @@ public class MonitoredValueService {
     private UserRepository userRepository;
 
     @Autowired
-    private DeviceRepository deviceRepository;
-
-    @Autowired
     private SensorRepository sensorRepository;
 
     @Autowired

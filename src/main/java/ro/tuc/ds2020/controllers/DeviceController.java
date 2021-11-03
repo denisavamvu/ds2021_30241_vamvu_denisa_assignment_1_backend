@@ -29,7 +29,6 @@ public class DeviceController {
         return new ResponseEntity<>(deviceDetailsDTOList, HttpStatus.OK);
     }
 
-
     @PostMapping()
     public ResponseEntity<UUID> insertDevice(@Valid @RequestBody DeviceDetailsDTO deviceDetailsDTO) {
         UUID deviceID = deviceService.insert(deviceDetailsDTO);

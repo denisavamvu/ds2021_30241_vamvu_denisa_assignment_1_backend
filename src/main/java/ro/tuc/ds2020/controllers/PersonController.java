@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
-import ro.tuc.ds2020.entities.Person;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;

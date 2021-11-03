@@ -78,7 +78,6 @@ public class ClientDTO {
         return Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(birthdate,that.birthdate);
-        //birthdate.equals(that.birthdate);
     }
 
     @Override

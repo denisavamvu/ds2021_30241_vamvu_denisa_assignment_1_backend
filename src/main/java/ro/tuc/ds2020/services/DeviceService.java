@@ -11,7 +11,6 @@ import ro.tuc.ds2020.dtos.DeviceDetailsDTO;
 import ro.tuc.ds2020.dtos.SensorDetailsDTO;
 import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
 import ro.tuc.ds2020.dtos.builders.SensorBuilder;
-import ro.tuc.ds2020.dtos.builders.UserBuilder;
 import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.entities.User;
@@ -32,9 +31,6 @@ public class DeviceService {
 
     @Autowired
     private DeviceBuilder deviceBuilder;
-
-    @Autowired
-    private UserBuilder userBuilder;
 
     @Autowired
     private UserRepository userRepository;
@@ -82,16 +78,11 @@ public class DeviceService {
         return device.getId();
     }
 
+    @Transactional
     public UUID deleteDevice(UUID deviceId)throws ResourceNotFoundException {
-        /*
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
         deviceRepository.delete(device);
-
-         */
-        Device device = deviceRepository.findById(deviceId)
-                .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
-        deviceRepository.deleteById(deviceId);
         return deviceId;
     }
 

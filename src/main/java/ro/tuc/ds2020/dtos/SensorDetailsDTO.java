@@ -1,6 +1,5 @@
 package ro.tuc.ds2020.dtos;
 
-import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.MonitoredValue;
 
 import java.util.Set;
