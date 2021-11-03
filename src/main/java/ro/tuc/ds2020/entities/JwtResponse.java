@@ -15,7 +15,6 @@ public class JwtResponse implements Serializable {
         this.username = username;
         this.role = role;
     }
-    
     public String getUsername() {
         return username;
     }

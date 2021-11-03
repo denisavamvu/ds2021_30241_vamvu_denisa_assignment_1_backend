@@ -1,7 +1,5 @@
 package ro.tuc.ds2020.dtos;
 
-import ro.tuc.ds2020.entities.User;
-
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -16,6 +14,7 @@ public class DeviceDetailsDTO {
     private float average_consumption;
     private UUID userId;
     private String username;
+    private SensorDetailsDTO sensor;
 
     public DeviceDetailsDTO() {
 
@@ -29,7 +28,7 @@ public class DeviceDetailsDTO {
         this.average_consumption = average_consumption;
     }
 
-    public DeviceDetailsDTO(UUID id, String description, String address, float max_consumption, float average_consumption, UUID userId, String username) {
+    public DeviceDetailsDTO(UUID id, String description, String address, float max_consumption, float average_consumption, UUID userId, String username, SensorDetailsDTO sensor) {
         this.id = id;
         this.description = description;
         this.address = address;
@@ -37,6 +36,7 @@ public class DeviceDetailsDTO {
         this.average_consumption = average_consumption;
         this.userId = userId;
         this.username = username;
+        this.sensor = sensor;
     }
 
     public DeviceDetailsDTO(UUID id, String description, float max_consumption, float average_consumption) {
@@ -100,5 +100,13 @@ public class DeviceDetailsDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public SensorDetailsDTO getSensor() {
+        return sensor;
+    }
+
+    public void setSensor(SensorDetailsDTO sensor) {
+        this.sensor = sensor;
     }
 }

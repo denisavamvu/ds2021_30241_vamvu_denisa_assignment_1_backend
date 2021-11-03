@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ro.tuc.ds2020.dtos.ClientDTO;
-import ro.tuc.ds2020.dtos.ClientDetailsDTO;
-import ro.tuc.ds2020.dtos.CurrentUserDTO;
-import ro.tuc.ds2020.dtos.UserDTO;
+import ro.tuc.ds2020.dtos.*;
 import ro.tuc.ds2020.entities.UserRole;
 import ro.tuc.ds2020.services.UserService;
 
@@ -64,16 +61,15 @@ public class UserController {
         return new ResponseEntity<>(deletedClientId, HttpStatus.OK);
     }
 
-    @GetMapping("/userDetails/{username}")
-    public ResponseEntity<CurrentUserDTO> getUserDetails(@PathVariable(value = "username") String username)
-    {
-        CurrentUserDTO currentUserDTO = userService.getCurrentUserDetails(username);
-        return new ResponseEntity<>(currentUserDTO, HttpStatus.OK);
-    }
-
     @GetMapping("/getClient/{id}")
     public ResponseEntity<ClientDTO> getClientById(@PathVariable(value = "id") UUID id) {
         ClientDTO clientDTO= userService.findClientById(id);
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/getDevices/{id}")
+    public ResponseEntity<List<DeviceDetailsDTO>> getDevices(@PathVariable(value = "id") UUID id){
+        List<DeviceDetailsDTO> deviceDetailsDTOList = userService.getDevices(id);
+        return new ResponseEntity<>(deviceDetailsDTOList, HttpStatus.OK);
     }
 }
