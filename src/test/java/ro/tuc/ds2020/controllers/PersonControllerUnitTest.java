@@ -22,16 +22,16 @@ public class PersonControllerUnitTest extends Ds2020TestConfig {
 
     @Test
     public void insertPersonTest() throws Exception {
-       assert(true);
+       assert true;
     }
 
     @Test
     public void insertPersonTestFailsDueToAge() throws Exception {
-        assert(true);
+        assert true;
     }
 
     @Test
     public void insertPersonTestFailsDueToNull() throws Exception {
-        assert(true);
+        assert true;
     }
 }
