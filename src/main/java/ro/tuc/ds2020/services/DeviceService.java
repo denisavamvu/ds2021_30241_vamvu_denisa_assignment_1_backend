@@ -18,7 +18,6 @@ import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -45,6 +44,9 @@ public class DeviceService {
                 .collect(Collectors.toList());
     }
 
+    public Device getDevice(UUID id){
+        return deviceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ id));
+    }
     public List<DeviceDetailsDTO> findDevicesWithoutSensors(){
         List<Device> deviceList = deviceRepository.findAll();
         return deviceList.stream().filter(device -> device.getSensor() == null)
@@ -82,7 +84,7 @@ public class DeviceService {
     public UUID deleteDevice(UUID deviceId)throws ResourceNotFoundException {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: "+ deviceId));
-        deviceRepository.delete(device);
+        deviceRepository.deleteById(deviceId);
         return deviceId;
     }
 

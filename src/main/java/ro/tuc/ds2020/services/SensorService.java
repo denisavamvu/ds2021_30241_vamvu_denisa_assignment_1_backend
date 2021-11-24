@@ -37,6 +37,9 @@ public class SensorService {
                 .collect(Collectors.toList());
     }
 
+    public Sensor getSensor(UUID id){
+        return sensorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sensor not found on :: "+ id));
+    }
     public UUID insert(SensorDetailsDTO sensorDetailsDTO) {
         Sensor sensor = sensorBuilder.toEntity(sensorDetailsDTO);
         sensor = sensorRepository.save(sensor);

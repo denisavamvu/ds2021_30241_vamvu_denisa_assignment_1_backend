@@ -63,7 +63,6 @@ public class MonitoredValueService {
                         String day = convertedDate.substring(0, 10);
                         int hour = Integer.parseInt(convertedDate.substring(11, 13));
                         Integer hourAux = Integer.valueOf(hour);
-                        System.out.println(hour);
                         if (day.equals(data)) {
                             if (map.containsKey(hourAux))
                                 map.put(hourAux, map.get(hourAux) + monitoredValue.getEnergy_consumption());
@@ -77,7 +76,24 @@ public class MonitoredValueService {
 
             }
         }
-
         return map;
+    }
+
+    public List<MonitoredValueDTO> getMonitoredValuesOfUser(UUID id) {
+        List<MonitoredValueDTO> monitoredValueDTOList = new ArrayList<>();
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + id));
+        if (user.getDevices() != null) {
+            for (Device device : user.getDevices()) {
+                if (device.getSensor() != null) {
+                    Sensor sensor = sensorRepository.findById(device.getSensor().getId()).orElseThrow(() -> new ResourceNotFoundException("sensor not found "));
+                    Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
+                    for (MonitoredValue monitoredValue : monitoredValues) {
+                        MonitoredValueDTO monitoredValueDTO = monitoredValueBuilder.toMonitoredValueDTO(monitoredValue);
+                        monitoredValueDTOList.add(monitoredValueDTO);
+                    }
+                }
+            }
+        }
+        return monitoredValueDTOList;
     }
 }

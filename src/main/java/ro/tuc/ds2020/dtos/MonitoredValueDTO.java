@@ -25,6 +25,12 @@ public class MonitoredValueDTO {
         this.energyConsumption = energyConsumption;
     }
 
+    public MonitoredValueDTO(LocalDateTime timestamp, float energyConsumption, UUID sensorId) {
+        this.timestamp = timestamp;
+        this.energyConsumption = energyConsumption;
+        this.sensorId = sensorId;
+    }
+
     public UUID getId() {
         return id;
     }
