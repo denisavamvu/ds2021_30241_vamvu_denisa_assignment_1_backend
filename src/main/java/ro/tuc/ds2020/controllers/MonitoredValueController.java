@@ -37,4 +37,10 @@ public class MonitoredValueController {
         Map map = monitoredValueService.getHistoricalMonitoredData(id, date);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+    @GetMapping("/getMonitoredValues/{id}")
+    public ResponseEntity<List<MonitoredValueDTO>> getMonitoredValuesOfUser(@PathVariable(value = "id") UUID id){
+        List<MonitoredValueDTO> monitoredValueDTOList = monitoredValueService.getMonitoredValuesOfUser(id);
+        return new ResponseEntity<>(monitoredValueDTOList, HttpStatus.OK);
+    }
 }
