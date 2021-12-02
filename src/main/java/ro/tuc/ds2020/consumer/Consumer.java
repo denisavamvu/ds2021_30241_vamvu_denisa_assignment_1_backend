@@ -10,6 +10,7 @@ import ro.tuc.ds2020.dtos.MonitoredValueDTO;
 import ro.tuc.ds2020.dtos.SensorDetailsDTO;
 import ro.tuc.ds2020.dtos.builders.SensorBuilder;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.MonitoredValue;
 import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.MonitoredValueService;
@@ -17,6 +18,7 @@ import ro.tuc.ds2020.services.SensorService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -60,17 +62,22 @@ public class Consumer {
         System.out.println(lastSensorId + " " + id);
         System.out.println( "peak " + (measurement - lastMeasurementValue)/(time-lastTimestamp));
 
-        if(lastSensorId != null){
-            if(lastSensorId.equals(id)){
-                double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
-                if(peak * 20 >= sensor.getMax_value()){
-                    try {
-                        WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
-                                +" has exceeded the maximum value!");
-                    }catch (Exception e){
+        if(!lastSensorId.equals(id))
+        {
+            MonitoredValue lastMonitoredValue = null;
+            Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
+            for(MonitoredValue m : monitoredValues)
+                lastMonitoredValue = m;
+            measurement = lastMonitoredValue.getEnergy_consumption();
+            time = lastMonitoredValue.getTimestamp().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
+        }
+        double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
+        if(peak * 20 >= sensor.getMax_value()){
+            try {
+                WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
+                        +" has exceeded the maximum value!");
+            }catch (Exception e){
 
-                    }
-                }
             }
         }
 
