@@ -60,11 +60,10 @@ public class Consumer {
 
         long time =  timestamp.atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
         System.out.println(lastSensorId + " " + id);
-        System.out.println( "peak " + (measurement - lastMeasurementValue)/(time-lastTimestamp));
 
         if(!lastSensorId.equals(id))
         {
-            MonitoredValue lastMonitoredValue = null;
+            MonitoredValue lastMonitoredValue = new MonitoredValue();
             Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
             for(MonitoredValue m : monitoredValues)
                 lastMonitoredValue = m;
@@ -72,7 +71,8 @@ public class Consumer {
             time = lastMonitoredValue.getTimestamp().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
         }
         double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
-        if(peak * 20 >= sensor.getMax_value()){
+        if(peak * 200 >= sensor.getMax_value()){
+            System.out.println(peak*200);
             try {
                 WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
                         +" has exceeded the maximum value!");
