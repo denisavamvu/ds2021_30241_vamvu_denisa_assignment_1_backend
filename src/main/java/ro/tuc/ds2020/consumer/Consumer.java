@@ -10,6 +10,7 @@ import ro.tuc.ds2020.dtos.MonitoredValueDTO;
 import ro.tuc.ds2020.dtos.SensorDetailsDTO;
 import ro.tuc.ds2020.dtos.builders.SensorBuilder;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.MonitoredValue;
 import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.MonitoredValueService;
@@ -17,13 +18,16 @@ import ro.tuc.ds2020.services.SensorService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
 public class Consumer {
 
     private long lastTimestamp = LocalDateTime.now().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
-    private UUID lastSensorId = null;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private double lastMeasurementValue = 0;
     private MonitoredValueService monitoredValueService;
     private SensorService sensorService;
@@ -38,7 +42,7 @@ public class Consumer {
         this.sensorService = sensorService;
     }
 
-    @RabbitListener(queues = "queue")
+    @RabbitListener(queues = "queue", ackMode = "NONE")
     public void handleMessage(byte[] message) {
         JSONObject jsonObject = (JSONObject) SerializationUtils.deserialize(message);
 
@@ -48,34 +52,46 @@ public class Consumer {
 
         Sensor sensor = sensorService.getSensor(id);
 
-        monitoredValueService.insertMonitoredValue(new MonitoredValueDTO(timestamp, measurement, sensor.getId()));
-
         SensorDetailsDTO sensorDetailsDTO = sensorBuilder.toSensorDetailsDTO(sensor);
         Device device = deviceService.getDevice(sensorDetailsDTO.getDeviceId());
         UUID userId = device.getUser().getId();
 
         System.out.println("User " + userId);
+        System.out.println("sensor "+ id);
+        System.out.println(measurement + "     " + lastMeasurementValue);
 
-        long time =  timestamp.atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
-        System.out.println(lastSensorId + " " + id);
-        System.out.println( "peak " + (measurement - lastMeasurementValue)/(time-lastTimestamp));
+        MonitoredValue lastMonitoredValue = null;
+        List<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
+        LocalDateTime maxTimeStamp = LocalDateTime.parse("2016-01-01 11:30", formatter);
 
-        if(lastSensorId != null){
-            if(lastSensorId.equals(id)){
-                double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
-                if(peak * 20 >= sensor.getMax_value()){
-                    try {
-                        WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
-                                +" has exceeded the maximum value!");
-                    }catch (Exception e){
+        for(MonitoredValue m : monitoredValues)
+        {
+            if(m.getTimestamp().isAfter(maxTimeStamp)) {
+                lastMonitoredValue = m;
+                maxTimeStamp = m.getTimestamp();
+            }
+        }
 
-                    }
-                }
+        monitoredValueService.insertMonitoredValue(new MonitoredValueDTO(timestamp, measurement, sensor.getId()));
+
+        measurement = lastMonitoredValue.getEnergy_consumption();
+        long time = lastMonitoredValue.getTimestamp().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
+
+
+        double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
+        System.out.println(measurement + "     " + lastMeasurementValue);
+        System.out.println("peak "+ peak*200);
+        if(peak * 200 >= sensor.getMax_value()){
+
+            try {
+                WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
+                        +" has exceeded the maximum value!");
+            }catch (Exception e){
+
             }
         }
 
         lastMeasurementValue = measurement;
         lastTimestamp = time;
-        lastSensorId = id;
     }
 }
