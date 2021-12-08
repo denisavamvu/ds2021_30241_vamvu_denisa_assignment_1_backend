@@ -56,7 +56,7 @@ public class MonitoredValueService {
             for (Device device : user.getDevices()) {
                 if (device.getSensor() != null) {
                     Sensor sensor = sensorRepository.findById(device.getSensor().getId()).orElseThrow(() -> new ResourceNotFoundException("sensor not found "));
-                    Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
+                    List<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
                     for (MonitoredValue monitoredValue : monitoredValues) {
                         String convertedDate = monitoredValue.getTimestamp().format(formatter);
                         String day = convertedDate.substring(0, 10);
@@ -85,7 +85,7 @@ public class MonitoredValueService {
             for (Device device : user.getDevices()) {
                 if (device.getSensor() != null) {
                     Sensor sensor = sensorRepository.findById(device.getSensor().getId()).orElseThrow(() -> new ResourceNotFoundException("sensor not found "));
-                    Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
+                    List<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
                     for (MonitoredValue monitoredValue : monitoredValues) {
                         MonitoredValueDTO monitoredValueDTO = monitoredValueBuilder.toMonitoredValueDTO(monitoredValue);
                         monitoredValueDTOList.add(monitoredValueDTO);

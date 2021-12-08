@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class Sensor implements Serializable {
 
     @OneToMany(mappedBy = "sensor", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private Set<MonitoredValue> monitoredValues;
+    private List<MonitoredValue> monitoredValues;
 
     public Sensor() {
 
@@ -49,7 +50,7 @@ public class Sensor implements Serializable {
         this.description = description;
         this.max_value = max_value;
     }
-    public Sensor(UUID id, String description, float max_value, Device device, Set<MonitoredValue> monitoredValues) {
+    public Sensor(UUID id, String description, float max_value, Device device, List<MonitoredValue> monitoredValues) {
         this.id = id;
         this.description = description;
         this.max_value = max_value;
@@ -89,11 +90,11 @@ public class Sensor implements Serializable {
         this.device = device;
     }
 
-    public Set<MonitoredValue> getMonitoredValues() {
+    public List<MonitoredValue> getMonitoredValues() {
         return monitoredValues;
     }
 
-    public void setMonitoredValues(Set<MonitoredValue> monitoredValues) {
+    public void setMonitoredValues(List<MonitoredValue> monitoredValues) {
         this.monitoredValues = monitoredValues;
     }
 }
