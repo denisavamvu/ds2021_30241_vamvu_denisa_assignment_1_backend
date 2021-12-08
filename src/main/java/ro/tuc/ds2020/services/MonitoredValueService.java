@@ -9,7 +9,6 @@ import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.MonitoredValue;
 import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.entities.User;
-import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.MonitoredValueRepository;
 
 import java.time.format.DateTimeFormatter;
@@ -95,5 +94,9 @@ public class MonitoredValueService {
             }
         }
         return monitoredValueDTOList;
+    }
+
+    public void deleteAll(){
+        monitoredValueRepository.deleteAll();
     }
 }
