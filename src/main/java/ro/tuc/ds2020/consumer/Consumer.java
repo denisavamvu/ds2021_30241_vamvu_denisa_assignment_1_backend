@@ -19,10 +19,7 @@ import ro.tuc.ds2020.services.SensorService;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> main
 import java.util.Set;
 import java.util.UUID;
 
@@ -91,40 +88,10 @@ public class Consumer {
                         +" has exceeded the maximum value!");
             }catch (Exception e){
 
-        long time =  timestamp.atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
-        System.out.println(lastSensorId + " " + id);
-        System.out.println(measurement + "     " + lastMeasurementValue);
-        if(!lastSensorId.equals(id))
-        {
-            MonitoredValue lastMonitoredValue = new MonitoredValue();
-            Set<MonitoredValue> monitoredValues = sensor.getMonitoredValues();
-            String str = "2016-01-01 11:30";
-            LocalDateTime maxTimeStamp = LocalDateTime.parse(str, formatter);
-
-            for(MonitoredValue m : monitoredValues)
-                if(m.getTimestamp().isAfter(maxTimeStamp)) {
-                    lastMonitoredValue = m;
-                    maxTimeStamp = m.getTimestamp();
-                }
-
-            measurement = lastMonitoredValue.getEnergy_consumption();
-            time = lastMonitoredValue.getTimestamp().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
-        }
-        double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);
-        System.out.println(measurement + "     " + lastMeasurementValue);
-        System.out.println("peak "+ peak*200);
-        if(peak * 200 >= sensor.getMax_value()){
-
-            try {
-                WebSocketNotification.sendMsg(userId.toString(),"Your sensor with id "+ id
-                        +" has exceeded the maximum value!");
-            }catch (Exception e){
-
             }
         }
 
         lastMeasurementValue = measurement;
         lastTimestamp = time;
-        lastSensorId = id;
     }
 }
