@@ -99,4 +99,9 @@ public class MonitoredValueService {
         }
         return monitoredValueDTOList;
     }
+
+    public void deleteAll(){
+        monitoredValueRepository.deleteAll();
+    }
+
 }

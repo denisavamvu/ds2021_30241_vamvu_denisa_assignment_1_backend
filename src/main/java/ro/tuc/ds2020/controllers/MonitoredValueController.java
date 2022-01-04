@@ -43,4 +43,10 @@ public class MonitoredValueController {
         List<MonitoredValueDTO> monitoredValueDTOList = monitoredValueService.getMonitoredValuesOfUser(id);
         return new ResponseEntity<>(monitoredValueDTOList, HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteMonitoredValues")
+    public void deleteAllMonitoredValues(){
+        monitoredValueService.deleteAll();
+    }
+
 }
