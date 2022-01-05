@@ -18,6 +18,7 @@ import ro.tuc.ds2020.services.SensorService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +48,8 @@ public class Consumer {
         JSONObject jsonObject = (JSONObject) SerializationUtils.deserialize(message);
 
         LocalDateTime timestamp = (LocalDateTime)jsonObject.get("timestamp");
+        timestamp = timestamp.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+
         float measurement = (float) jsonObject.get("measurement_value");
         UUID id = (UUID) jsonObject.get("sensor_id");
 
@@ -75,7 +78,7 @@ public class Consumer {
         monitoredValueService.insertMonitoredValue(new MonitoredValueDTO(timestamp, measurement, sensor.getId()));
 
         measurement = lastMonitoredValue.getEnergy_consumption();
-        long time = lastMonitoredValue.getTimestamp().atZone(ZoneId.of("Europe/Bucharest")).toEpochSecond();
+        long time = lastMonitoredValue.getTimestamp().atZone(ZoneOffset.UTC).toEpochSecond();
 
 
         double peak = (measurement - lastMeasurementValue)/(time-lastTimestamp);

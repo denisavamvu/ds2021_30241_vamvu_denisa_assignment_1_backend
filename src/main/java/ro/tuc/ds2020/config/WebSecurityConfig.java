@@ -42,10 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/**").permitAll()
+                .authorizeRequests()
                 .antMatchers("/notification/{client_id}").permitAll()
+                .antMatchers("/rpc").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/addAdmin").permitAll().
-                mvcMatchers(HttpMethod.GET, "/users").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
