@@ -99,4 +99,5 @@ public class MonitoredValueService {
     public void deleteAll(){
         monitoredValueRepository.deleteAll();
     }
+
 }

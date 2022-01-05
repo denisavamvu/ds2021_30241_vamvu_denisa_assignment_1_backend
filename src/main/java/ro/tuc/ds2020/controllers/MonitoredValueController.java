@@ -48,4 +48,5 @@ public class MonitoredValueController {
     public void deleteAllMonitoredValues(){
         monitoredValueService.deleteAll();
     }
+    
 }
